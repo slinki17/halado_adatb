@@ -24,7 +24,7 @@ create table Copies(
 	book_id int,
 	status varchar(255),
 	foreign key (book_id) references Books(book_id)
-)
+);
 
 create table Borrowing(
 
@@ -37,7 +37,7 @@ create table Borrowing(
 	foreign key (user_id) references Users(user_id),
 	foreign key (copy_id) references Copies(copy_id)
 
-)
+);
 
 create table Reservations(
 
@@ -50,4 +50,4 @@ create table Reservations(
 	foreign key (user_id) references Users(user_id),
 	foreign key (book_id) references Books(book_id)
 
-)
+);

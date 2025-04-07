@@ -43,11 +43,11 @@ create table Reservations(
 
 	reservation_id int primary key,
 	user_id int,
-	book_id int,
+	copy_id int,
 	reservation_date date,
 	expiration_date date,
 	status varchar(255),
 	foreign key (user_id) references Users(user_id),
-	foreign key (book_id) references Books(book_id)
+	foreign key (copy_id) references Copies(copy_id)
 
 );

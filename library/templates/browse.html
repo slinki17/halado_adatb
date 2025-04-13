@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Library - Browse</title>
+  <link rel="stylesheet" href="/static/frontend/style.css" />
+</head>
+<body>
+  <nav>
+    <a href="{% url 'add_data' %}">Go to Add Data</a>
+  </nav>
+
+  <header>
+    <h1>Library Demo: Browse</h1>
+  </header>
+
+  <section>
+    <h2>Books</h2>
+    <ul id="book-list"></ul>
+  </section>
+
+  <section>
+    <h2>Book Copies</h2>
+    <ul id="copy-list"></ul>
+  </section>
+
+  <section>
+    <h2>Borrowings</h2>
+    <ul id="borrowing-list"></ul>
+  </section>
+
+  <section>
+    <h2>Reservations</h2>
+    <ul id="reservation-list"></ul>
+  </section>
+
+  <script type="module" src="/static/frontend/dist/browse.js"></script>
+</body>
+</html>

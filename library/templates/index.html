@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Library - Add Data</title>
+  <link rel="stylesheet" href="/static/frontend/style.css" />
+  <script type="module" src="/static/frontend/dist/add.js"></script>
+
+</head>
+<body>
+  <nav>
+    <a href="{% url 'browse' %}">Go to Browse</a>
+  </nav>
+
+  <header>
+    <h1>Library Demo: Add Data</h1>
+  </header>
+
+  <section>
+    <h2>Add Book</h2>
+    <form id="book-form">
+      <input type="text" id="book_title" placeholder="Title" required />
+      <input type="text" id="book_author" placeholder="Author" required />
+      <input type="number" id="book_year" placeholder="Year" required />
+      <input type="text" id="book_genre" placeholder="Genre" required />
+      <button type="submit">Add Book</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Add Book Copy</h2>
+    <form id="copy-form">
+      <input type="number" id="copy_book_id" placeholder="Book ID" required />
+      <select id="copy_status">
+        <option value="available">available</option>
+        <option value="borrowed">borrowed</option>
+        <option value="reserved">reserved</option>
+      </select>
+      <button type="submit">Add Copy</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Add Borrowing</h2>
+    <form id="borrowing-form">
+      <input type="number" id="borrowing_user" placeholder="User ID" required />
+      <input type="number" id="borrowing_copy" placeholder="Copy ID" required />
+      <label>Date: <input type="date" id="borrowing_date" required /></label>
+      <label>Due: <input type="date" id="borrowing_due" required /></label>
+      <input type="number"
+      

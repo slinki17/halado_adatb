@@ -71,7 +71,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'library.wsgi.application'
-
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

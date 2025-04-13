@@ -1,63 +1,47 @@
 from django.db import models
 
 class User(models.Model):
-    USER_TYPES = [
-        ('reader', 'Reader'),
-        ('librarian', 'Librarian'),
-    ]
-    
     name = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=15, blank=True, null=True)
-    user_type = models.CharField(max_length=10, choices=USER_TYPES, default='reader')
+    email = models.CharField(max_length=255)
+    phone = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.id})"
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
-    year = models.PositiveIntegerField()
-    genre_id = models.PositiveIntegerField()
+    year = models.IntegerField()
+    genre = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return self.title
+        return f"{self.title} ({self.id})"
 
-class BookCopy(models.Model):
-    STATUS_CHOICES = [
-        ('available', 'Available'),
-        ('borrowed', 'Borrowed'),
-        ('reserved', 'Reserved'),
-    ]
-    
+class Copy(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='available')
+    status = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"Copy of {self.book.title} - {self.status}"
+        return f"Copy {self.id} of {self.book.title} - {self.status}"
 
 class Borrowing(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    copy = models.ForeignKey(BookCopy, on_delete=models.CASCADE)
+    copy = models.ForeignKey(Copy, on_delete=models.CASCADE)
     date = models.DateField()
     due = models.DateField()
     return_date = models.DateField(blank=True, null=True)
+    status = models.IntegerField()
 
     def __str__(self):
-        return f"{self.user.name} borrowed {self.copy.book.title}"
+        return f"Borrowing {self.id} by {self.user.name} of copy {self.copy.id}"
 
 class Reservation(models.Model):
-    STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('confirmed', 'Confirmed'),
-        ('cancelled', 'Cancelled'),
-    ]
-    
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    reservation_date = models.DateField(auto_now_add=True)
+    copy = models.ForeignKey(Copy, on_delete=models.CASCADE)
+    reservation_date = models.DateField()
     expiration_date = models.DateField()
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    status = models.IntegerField()
 
     def __str__(self):
-        return f"{self.user.name} reserved {self.book.title}"
+        return f"Reservation {self.id} by {self.user.name} for copy {self.copy.id}"

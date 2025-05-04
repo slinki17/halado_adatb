@@ -1,19 +1,19 @@
 from rest_framework import serializers
-from .models import User, Book, Copy, Borrowing, Reservation
+from .models import *
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Users
         fields = '__all__'
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Book
+        model = Books
         fields = '__all__'
 
 class BookCopySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Copy
+        model = Copies
         fields = '__all__'
 
 class BorrowingSerializer(serializers.ModelSerializer):
@@ -23,5 +23,5 @@ class BorrowingSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Reservation
+        model = Reservations
         fields = '__all__'

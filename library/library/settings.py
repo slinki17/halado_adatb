@@ -81,22 +81,28 @@ STATICFILES_DIRS = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'library',
+        'USER': 'postgres',
+        'PASSWORD': 'h6twqPNO',
+        'HOST': '34.65.182.224',
+        'PORT': '5432'
     }
 }
 
 try:
     import psycopg2
     conn = psycopg2.connect(
-        dbname=os.getenv('DB_NAME', 'yourdbname'),
-        user=os.getenv('DB_USER', 'yourdbuser'),
-        password=os.getenv('DB_PASSWORD', 'yourdbpassword'),
-        host=os.getenv('DB_HOST', 'yourdbhost'),
+        dbname=os.getenv('DB_NAME', 'library'),
+        user=os.getenv('DB_USER', 'postgres'),
+        password=os.getenv('DB_PASSWORD', 'h6twqPNO'),
+        host=os.getenv('DB_HOST', '34.65.182.224'),
         port=os.getenv('DB_PORT', '5432')
     )
+    print('Connection to PostgreSQL successful')
     conn.close()
 except Exception:
+    print('Connection to SQlite')
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',

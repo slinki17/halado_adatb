@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.views.generic import TemplateView
-from .views import UserViewSet, BookViewSet, BookCopyViewSet, BorrowingViewSet, ReservationViewSet
+from .views import *
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -28,10 +28,12 @@ router.register(r'borrowings', BorrowingViewSet)
 router.register(r'reservations', ReservationViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name="index.html"),name='add_data'),
-    path('browse/', TemplateView.as_view(template_name='browse.html'), name='browse'),
-    path('', include(router.urls)),
+    path('', select_user, name='select_user'),
+    path('books/<int:user_id>/', book_list, name='book_list'),
+    path('reserve/<int:user_id>/<int:copy_id>/', reserve_copy, name='reserve_copy'),
+    path('borrow/<int:user_id>/<int:copy_id>/', borrow_copy, name='borrow_copy'),
+    path('return/<int:user_id>/<int:copy_id>/', return_copy, name='return_copy'),
+
 ]
 
 

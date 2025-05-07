@@ -101,7 +101,8 @@ try:
     )
     print('Connection to PostgreSQL successful')
     conn.close()
-except Exception:
+except Exception as e:
+    print(e)
     print('Connection to SQlite')
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -149,3 +150,21 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'library.log',
+        },
+    },
+    'loggers': {
+        'library': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}

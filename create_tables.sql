@@ -20,7 +20,7 @@ create table Books(
 
 create table Copies(
 
-	copy_id serial primary key,
+	copy_id serial primary key,	
 	book_id int,
 	status varchar(255),
 	foreign key (book_id) references Books(book_id)

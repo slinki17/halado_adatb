@@ -8,7 +8,7 @@
 <body>
 <div class="container py-5">
     <!-- Aktív kölcsönzések -->
-    <h4>📦 Kölcsönzések:</h4>
+    <h4>Kölcsönzések:</h4>
     {% if borrowings %}
         <ul class="list-group mb-4">
             {% for b in borrowings %}
@@ -23,7 +23,7 @@
     {% endif %}
 
     <!-- Aktív foglalások -->
-    <h4>🔒 Foglalások:</h4>
+    <h4>Foglalások:</h4>
     {% if reservations %}
         <ul class="list-group mb-4">
             {% for r in reservations %}
@@ -68,16 +68,25 @@
                                 {% endif %}
                             </div>
                         
-                            {% if copy.status == "1" or copy.status == 1 %}
-                                <div>
-                                    <a href="{% url 'reserve_copy' user.user_id copy.copy_id %}" class="btn btn-outline-primary btn-sm me-2">Foglalás</a>
-                                    <a href="{% url 'borrow_copy' user.user_id copy.copy_id %}" class="btn btn-outline-success btn-sm">Kölcsönzés</a>
-                                </div>
-                            {% elif copy.status == "3" or copy.status == 3 %}
-                                <div>
-                                    <a href="{% url 'return_copy' user.user_id copy.copy_id %}" class="btn btn-outline-danger btn-sm">Leadás</a>
-                                </div>
-                            {% endif %}
+                        {% if copy.status == "1" or copy.status == 1 %}
+                            <div>
+                                <a href="{% url 'reserve_copy' user.user_id copy.copy_id %}" class="btn btn-outline-primary btn-sm me-2">Foglalás</a>
+                                <a href="{% url 'borrow_copy' user.user_id copy.copy_id %}" class="btn btn-outline-success btn-sm">Kölcsönzés</a>
+                            </div>
+                        {% elif copy.status == "2" or copy.status == 2 %}
+                            <div>
+                                {% for r in reservations %}
+                                    {% if r.copy.copy_id == copy.copy_id and r.user.user_id == user.user_id %}
+                                        <a href="{% url 'borrow_copy' user.user_id copy.copy_id %}" class="btn btn-outline-success btn-sm me-2">Kölcsönzés</a>
+                                        <a href="{% url 'cancel_reservation' user.user_id r.reservation_id %}" class="btn btn-outline-danger btn-sm">Foglalás törlése</a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% elif copy.status == "3" or copy.status == 3 %}
+                            <div>
+                                <a href="{% url 'return_copy' user.user_id copy.copy_id %}" class="btn btn-outline-danger btn-sm">Leadás</a>
+                            </div>
+                        {% endif %}
                         </li>
                         
                         {% endif %}
@@ -87,7 +96,32 @@
         </div>
     {% endfor %}
 
-    <a href="{% url 'select_user' %}" class="btn btn-secondary mt-4">⬅ Vissza a felhasználókhoz</a>
+    <a href="{% url 'select_user' %}" class="btn btn-secondary mt-4">Vissza a felhasználókhoz</a>
+</div>
+<div class="text-end mb-4">
+    <button id="sync-btn" class="btn btn-outline-info">GCP szinkronizálás</button>
+    <span id="sync-status" class="ms-3 text-muted"></span>
 </div>
 </body>
 </html>
+
+<script>
+    document.getElementById("sync-btn").addEventListener("click", function () {
+        const statusEl = document.getElementById("sync-status");
+        statusEl.textContent = "Szinkronizálás folyamatban...";
+    
+        fetch("/sync-gcp/")
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    statusEl.textContent = "Sikeres szinkronizáció!";
+                } else {
+                    statusEl.textContent = "Sikertelen: " + data.message;
+                }
+            })
+            .catch(err => {
+                statusEl.textContent = "Hiba történt: " + err;
+            });
+    });
+    </script>
+    

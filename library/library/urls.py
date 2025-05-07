@@ -14,10 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from rest_framework.routers import DefaultRouter
-from django.views.generic import TemplateView
 from .views import *
 
 router = DefaultRouter()
@@ -33,7 +31,8 @@ urlpatterns = [
     path('reserve/<int:user_id>/<int:copy_id>/', reserve_copy, name='reserve_copy'),
     path('borrow/<int:user_id>/<int:copy_id>/', borrow_copy, name='borrow_copy'),
     path('return/<int:user_id>/<int:copy_id>/', return_copy, name='return_copy'),
-
+    path('user/<int:user_id>/reservation/<int:reservation_id>/cancel/', cancel_reservation, name='cancel_reservation'),
+    path('sync-gcp/', sync_from_gcp, name='sync_from_gcp'),
 ]
 
 

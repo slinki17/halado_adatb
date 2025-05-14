@@ -7,3 +7,7 @@ User 1 reserved copy 2 until 2025-05-10
 User 1 borrowed copy 2 (from reservation: True)
 User 1 reserved copy 19 until 2025-05-10
 User 1 canceled reservation 9 for copy 19
+User 1 returned copy 2
+User 1 reserved copy 2 until 2025-05-10
+User 1 borrowed copy 2 (from reservation: True)
+Return attempt without borrowing: user 2, copy 2
